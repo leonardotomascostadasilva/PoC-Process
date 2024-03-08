@@ -1,4 +1,5 @@
 using Microsoft.FeatureManagement;
+using PoC_Process.Helper;
 using PoC_Process.Process;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,19 @@ builder.Services.AddFeatureManagement(builder.Configuration.GetSection("FeatureM
 builder.Services.AddScoped<AbstractProcess, Process1>();
 builder.Services.AddScoped<AbstractProcess, Process2>();
 builder.Services.AddScoped<AbstractProcess, Process3>();
+builder.Services.AddScoped<IGateway, MyGateway>();
+builder.Services.AddScoped<IGateway, MyGateway2>();
+builder.Services.AddScoped(typeof(IFireForgetService2<>), typeof(FireForgetService2<>));
+
 builder.Services.AddScoped<IExecuteProcess, ExecuteProcess>();
+
+builder.Services.AddScoped<IFireForgetService, FireForgetService>();
+builder.Services.AddScoped<IGateway3, Gateway3>();
+
+//decorator
+builder.Services.AddScoped<Gateway4>();
+builder.Services.AddScoped<IGateway4>(serviceProvider =>
+    new FireForgetService3(serviceProvider.GetRequiredService<Gateway4>()));
 
 var app = builder.Build();
 
