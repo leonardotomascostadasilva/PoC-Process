@@ -26,6 +26,23 @@ public class Process1 : AbstractProcess
     {
         await Task.Delay(100);
         contextResult.ConcurrentBag.Add(new InfoProcess("Process1"));
-        await _gateway4.ExecuteAsync();
+        //await _gateway4.ExecuteAsync();
+        FireForgetAsync();
+    }
+
+    private void FireForgetAsync()
+    {
+        Task.Run(async () =>
+        {
+            try
+            {
+                await _gateway4.ExecuteAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error!!!!!");
+                
+            }
+        });
     }
 }

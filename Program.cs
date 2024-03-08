@@ -22,9 +22,9 @@ builder.Services.AddScoped<IFireForgetService, FireForgetService>();
 builder.Services.AddScoped<IGateway3, Gateway3>();
 
 //decorator
-builder.Services.AddScoped<Gateway4>();
-builder.Services.AddScoped<IGateway4>(serviceProvider =>
-    new FireForgetService3(serviceProvider.GetRequiredService<Gateway4>()));
+builder.Services.AddScoped<IGateway4, Gateway4>();
+// builder.Services.AddScoped<IGateway4>(serviceProvider =>
+//     new FireForgetService3(serviceProvider.GetRequiredService<Gateway4>()));
 
 var app = builder.Build();
 
